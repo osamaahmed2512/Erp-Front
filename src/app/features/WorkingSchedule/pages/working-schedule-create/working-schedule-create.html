@@ -1,0 +1,12 @@
+<app-create-page
+  entityName="Working Schedule"
+  [isSaving]="isSaving"
+  (saveEvent)="save()"
+  (cancelEvent)="cancel()">
+
+  <app-working-schedule-form
+    [form]="form"
+    [showCompany]="isSystemUser"
+    [companies]="companies">
+  </app-working-schedule-form>
+</app-create-page>

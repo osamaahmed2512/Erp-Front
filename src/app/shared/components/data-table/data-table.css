@@ -1,0 +1,29 @@
+.table-wrap {
+  border-radius: 0.9rem;
+}
+
+thead th {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+tbody tr {
+  border-bottom: 1px solid #f8fafc;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody td {
+  color: #0f172a;
+}
+
+.pager-button {
+  min-width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.35rem;
+}

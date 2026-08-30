@@ -1,0 +1,5 @@
+<app-create-page entityName="departement" [isSaving]="isSaving" (saveEvent)="save() " (cancelEvent)="cancel()">
+
+    <app-departement-form [form]="departmentForm" [isSuperAdmin]="isSystemUser" [companies]="companies"></app-departement-form>
+
+</app-create-page>

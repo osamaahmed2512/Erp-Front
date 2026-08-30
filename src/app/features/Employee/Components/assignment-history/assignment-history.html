@@ -1,0 +1,48 @@
+<section class="history-section" aria-labelledby="assignment-history-heading">
+  <div class="section-heading">
+    <div>
+      <p>Timeline</p>
+      <h2 id="assignment-history-heading">Assignment history</h2>
+    </div>
+    @if (!loading && assignments.length) {
+      <span class="record-count">{{ assignments.length }} {{ assignments.length === 1 ? 'record' : 'records' }}</span>
+    }
+  </div>
+
+  <div class="table-shell">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Manager</th>
+            <th>Effective from</th>
+            <th>Effective to</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (loading) {
+            @for (row of [1, 2, 3]; track row) {
+              <tr class="loading-row"><td colspan="6"><span></span></td></tr>
+            }
+          } @else {
+            @for (assignment of assignments; track assignment.id) {
+              <tr>
+                <td class="strong-cell">{{ assignment.departmentName }}</td>
+                <td>{{ assignment.positionName }}</td>
+                <td>{{ assignment.managerName || 'Not assigned' }}</td>
+                <td>{{ assignment.effectiveFrom | date: 'dd MMM yyyy' }}</td>
+                <td>{{ assignment.effectiveTo ? (assignment.effectiveTo | date: 'dd MMM yyyy') : 'Open-ended' }}</td>
+                <td><span class="status" [class.current]="statusFor(assignment) === 'Current'" [class.scheduled]="statusFor(assignment) === 'Scheduled'">{{ statusFor(assignment) }}</span></td>
+              </tr>
+            } @empty {
+              <tr><td colspan="6" class="empty-cell">No assignment history is available.</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<form [formGroup]="form" class="position-form">
+  <div class="form-heading">
+    <p>Organization setup</p>
+    <h2>Position details</h2>
+  </div>
+
+  <div class="form-grid">
+    @if (isSuperAdmin) {
+      <div class="field">
+        <label for="position-company">Company <span>*</span></label>
+        <select id="position-company" formControlName="companyId" [disabled]="loadingCompanies">
+          <option value="">{{ loadingCompanies ? 'Loading companies...' : 'Select company' }}</option>
+          @for (company of companies; track company.id) {
+            <option [value]="company.id">{{ company.name }}</option>
+          }
+        </select>
+        @if (form.get('companyId')?.touched && !form.get('companyId')?.value) { <small>Company is required.</small> }
+      </div>
+    }
+
+    <div class="field">
+      <label for="position-title">Title <span>*</span></label>
+      <input id="position-title" type="text" formControlName="title" placeholder="Enter position title">
+      @if (form.get('title')?.touched && form.get('title')?.invalid) { <small>Title is required.</small> }
+    </div>
+
+    <div class="field">
+      <label for="position-department">Department <span>*</span></label>
+      <select id="position-department" formControlName="departmentId" [disabled]="loadingDepartments || (isSuperAdmin && !form.get('companyId')?.value)">
+        <option value="">{{ loadingDepartments ? 'Loading departments...' : (isSuperAdmin && !form.get('companyId')?.value ? 'Select company first' : 'Select department') }}</option>
+        @for (department of departments; track department.id) {
+          <option [value]="department.id">{{ department.name }}</option>
+        }
+      </select>
+      @if (form.get('departmentId')?.touched && form.get('departmentId')?.invalid) { <small>Department is required.</small> }
+    </div>
+
+    <div class="field wide">
+      <label for="position-description">Description</label>
+      <textarea id="position-description" formControlName="description" rows="4" placeholder="Enter position responsibilities"></textarea>
+    </div>
+  </div>
+</form>

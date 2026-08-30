@@ -1,0 +1,93 @@
+<div class="employee-profile">
+  <div class="top-actions">
+    <button type="button" class="icon-button" title="Back to employees" (click)="goBack()">
+      <lucide-icon [img]="icons.ArrowLeft" [size]="19"></lucide-icon>
+    </button>
+    <button type="button" class="edit-button" (click)="editEmployee()">
+      <lucide-icon [img]="icons.Pencil" [size]="15"></lucide-icon>
+      Edit employee
+    </button>
+  </div>
+
+  <header class="profile-header">
+    @if (profileLoading) {
+      <div class="avatar avatar-loading"></div>
+      <div class="identity-loading"><span></span><span></span></div>
+    } @else if (employee) {
+      <label class="avatar photo-picker" title="Change profile photo">
+        @if (profilePhotoUrl) { <img [src]="profilePhotoUrl" alt="Employee profile photo"> } @else { {{ initials }} }
+        <input type="file" accept="image/png,image/jpeg,image/webp" (change)="uploadPhoto($event)">
+      </label>
+      <div class="identity">
+        <div class="name-line">
+          <h1>{{ employeeName }}</h1>
+          <span class="employee-status" [class.active]="employee.status === 1">{{ statusLabel }}</span>
+        </div>
+        <p>{{ currentAssignment?.positionName || 'Position not assigned' }}</p>
+        <div class="identity-meta">
+          <span><lucide-icon [img]="icons.Mail" [size]="14"></lucide-icon>{{ employee.email }}</span>
+          <span><lucide-icon [img]="icons.Phone" [size]="14"></lucide-icon>{{ employee.phone }}</span>
+        </div>
+      </div>
+    }
+  </header>
+
+  <nav class="profile-tabs" aria-label="Employee profile sections">
+    <button type="button" [class.active]="activeTab === 'overview'" (click)="selectTab('overview')">Overview</button>
+    <button type="button" [class.active]="activeTab === 'assignment'" (click)="selectTab('assignment')">Assignment</button>
+  </nav>
+
+  <main class="profile-content">
+    @if (activeTab === 'overview') {
+      <section class="overview" aria-labelledby="personal-information-heading">
+        <div class="section-heading">
+          <p>Employee record</p>
+          <h2 id="personal-information-heading">Personal information</h2>
+        </div>
+
+        @if (profileLoading) {
+          <div class="overview-grid loading-grid">@for (item of [1,2,3,4,5,6]; track item) { <span></span> }</div>
+        } @else if (employee) {
+          <dl class="overview-grid">
+            <div><dt><lucide-icon [img]="icons.CircleUserRound" [size]="16"></lucide-icon>Full name</dt><dd>{{ employeeName }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.Mail" [size]="16"></lucide-icon>Email</dt><dd>{{ employee.email }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.Phone" [size]="16"></lucide-icon>Phone</dt><dd>{{ employee.phone }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.Hash" [size]="16"></lucide-icon>Nationality number</dt><dd>{{ employee.nationalityNumber }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.CalendarDays" [size]="16"></lucide-icon>Birth date</dt><dd>{{ employee.birthDate | date: 'dd MMM yyyy' }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.CircleUserRound" [size]="16"></lucide-icon>Gender</dt><dd>{{ genderLabel }}</dd></div>
+            <div><dt><lucide-icon [img]="icons.CircleUserRound" [size]="16"></lucide-icon>Marital status</dt><dd>{{ maritalStatusLabel }}</dd></div>
+            <div class="wide"><dt><lucide-icon [img]="icons.MapPin" [size]="16"></lucide-icon>Address</dt><dd>{{ employee.address }}</dd></div>
+          </dl>
+        }
+      </section>
+
+      <section class="placement-strip" aria-labelledby="placement-heading">
+        <div>
+          <p>{{ showingLatestAssignment ? 'Latest placement' : 'Current placement' }}</p>
+          <h2 id="placement-heading">{{ currentAssignment?.departmentName || 'No department assigned' }}</h2>
+        </div>
+        <button type="button" (click)="selectTab('assignment')">View assignment</button>
+      </section>
+    } @else {
+      <app-assignment-summary
+        [assignment]="currentAssignment"
+        [loading]="currentLoading"
+        (createAssignment)="openAssignmentForm()">
+      </app-assignment-summary>
+
+      <app-assignment-history
+        [assignments]="assignmentHistory"
+        [loading]="historyLoading">
+      </app-assignment-history>
+    }
+  </main>
+</div>
+
+@if (showAssignmentForm && employee) {
+  <app-assignment-form
+    [employeeId]="employeeId"
+    [companyId]="employee.companyId"
+    (saved)="assignmentSaved()"
+    (cancelled)="showAssignmentForm = false">
+  </app-assignment-form>
+}

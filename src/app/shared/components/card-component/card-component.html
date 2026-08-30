@@ -1,0 +1,31 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center bg-gray-100 px-4 py-2">
+        <span class="text-sm text-primary font-medium">{{title}}</span>
+        <lucide-icon [name]="icons.Ellipsis" class="w-4 h-4 text-gray-400"></lucide-icon>
+    </div>
+
+    <!-- Content -->
+    <div class="flex justify-between items-end px-4 py-3">
+
+        <!-- Left -->
+        <div>
+            <div class="text-2xl font-bold text-gray-900">
+                {{Total}}
+            </div>
+
+            <div class="text-sm text-gray-400 mt-1">
+                Than last week
+            </div>
+        </div>
+
+        <!-- Right (percentage badge) -->
+        <div class="flex items-center gap-1 bg-green-100 text-green-600 px-2 py-1 rounded-full text-sm font-medium">
+            <lucide-icon [name]="icons.TrendingUp" class="w-3 h-3"></lucide-icon>
+            {{precentage}}%
+        </div>
+
+    </div>
+
+</div>

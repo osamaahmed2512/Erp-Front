@@ -1,0 +1,148 @@
+<div class="px-6 pb-6">
+
+  <!-- ── Table card ──────────────────────────────────────────────────── -->
+  <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left">
+
+        <thead>
+          <tr class="bg-slate-50 border-b border-slate-200">
+            <th *ngFor="let col of visibleColumns"
+                class="px-4 py-2.5 text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap"
+                [class]="col.class || ''">
+              {{ col.label }}
+            </th>
+            <th *ngIf="showView || showEdit || showDelete" class="px-4 py-2.5 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">
+              Actions
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-slate-100">
+
+          <!-- Loading -->
+          <tr *ngIf="loading">
+            <td colspan="20" class="text-center py-12">
+              <div class="flex flex-col items-center gap-2 text-slate-400">
+                <div class="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs">Loading…</span>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Rows are hidden while a new page/filter is loading so stale data is never shown. -->
+          <ng-container *ngIf="!loading">
+          <tr *ngFor="let item of data"
+              class="hover:bg-indigo-50/40 transition-colors group">
+
+            <td *ngFor="let col of visibleColumns"
+                class="px-4 py-2.5 text-slate-700 text-sm">
+              @if (col.badge) {
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium"
+                      [ngClass]="col.badgeClass?.(item[col.key])"
+                      (click)="allowBadgeClick && col.clickable && bageClick.emit(item.id)"
+                      >
+                  {{ item[col.key] }}
+                </span>
+              } @else {
+                {{ item[col.key] }}
+              }
+            </td>
+
+            <!-- Actions -->
+            <td *ngIf="showView || showEdit || showDelete" class="px-4 py-2.5 text-right">
+              <div class="flex justify-end gap-1">
+                <button *ngIf="showView"
+                  (click)="viewClick.emit(item)"
+                  class="p-1.5 rounded text-slate-500 hover:bg-slate-100 hover:text-indigo-600 transition-all"
+                  title="View">
+                  <lucide-icon [name]="icons.Eye" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button *ngIf="showEdit"
+                  (click)="editClick.emit(item.id)"
+                  class="p-1.5 rounded text-slate-500 hover:bg-amber-50 hover:text-amber-600 transition-all"
+                  title="Edit">
+                  <lucide-icon [name]="icons.Pencil" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+                <button *ngIf="showDelete"
+                  (click)="deleteClick.emit(item.id)"
+                  class="p-1.5 rounded text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all"
+                  title="Delete">
+                  <lucide-icon [name]="icons.Trash2" class="w-3.5 h-3.5"></lucide-icon>
+                </button>
+              </div>
+            </td>
+
+          </tr>
+          </ng-container>
+
+          <!-- Empty state -->
+          <tr *ngIf="!loading && data.length === 0">
+            <td colspan="20" class="text-center py-14">
+              <div class="flex flex-col items-center gap-2 text-slate-400">
+                <svg class="w-9 h-9 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M9 17H7A5 5 0 017 7h2M15 7h2a5 5 0 010 10h-2M8 12h8"/>
+                </svg>
+                <p class="text-sm">No records found.</p>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Pagination ──────────────────────────────────────────────── -->
+    <div class="flex items-center justify-between px-4 py-2.5 border-t border-slate-100 bg-slate-50/60 text-sm">
+
+      <!-- Rows per page -->
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 text-xs">Rows per page:</span>
+        <select
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange()"
+          class="text-xs border border-slate-200 rounded px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-400 cursor-pointer text-slate-600">
+          <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+        </select>
+      </div>
+
+      <!-- Range -->
+      <span class="text-xs text-slate-400">{{ rangeLabel }}</span>
+
+      <!-- Page buttons -->
+      <div class="flex items-center gap-0.5">
+        <button (click)="goToPage(1)" [disabled]="currentPage === 1"
+                class="p-1 rounded hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <lucide-icon [name]="icons.ChevronsLeft" class="w-3.5 h-3.5"></lucide-icon>
+        </button>
+        <button (click)="goToPage(currentPage - 1)" [disabled]="!hasPreviousPage"
+                class="p-1 rounded hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <lucide-icon [name]="icons.ChevronLeft" class="w-3.5 h-3.5"></lucide-icon>
+        </button>
+
+        <button *ngFor="let page of visiblePages"
+                (click)="goToPage(page)"
+                [ngClass]="{
+                  'bg-indigo-600 text-white': page === currentPage,
+                  'text-slate-500 hover:bg-slate-200': page !== currentPage
+                }"
+                class="w-7 h-7 rounded text-xs font-medium transition-colors">
+          {{ page }}
+        </button>
+
+        <button (click)="goToPage(currentPage + 1)" [disabled]="!hasNextPage"
+                class="p-1 rounded hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <lucide-icon [name]="icons.ChevronRight" class="w-3.5 h-3.5"></lucide-icon>
+        </button>
+        <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages"
+                class="p-1 rounded hover:bg-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+          <lucide-icon [name]="icons.ChevronsRight" class="w-3.5 h-3.5"></lucide-icon>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

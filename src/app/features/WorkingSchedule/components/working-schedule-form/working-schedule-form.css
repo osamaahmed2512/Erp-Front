@@ -1,0 +1,32 @@
+.schedule-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-heading { align-items: center; display: flex; justify-content: space-between; }
+.form-heading p { color: #6366f1; font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.form-heading h2 { color: #0f172a; font-size: 1.05rem; font-weight: 700; margin-top: .1rem; }
+.form-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+.field, .time-field { display: flex; flex-direction: column; gap: .25rem; }
+label { color: #334155; font-size: .76rem; font-weight: 600; }
+label span, small { color: #dc2626; }
+small { font-size: .7rem; }
+input, select { border: 1px solid #cbd5e1; border-radius: .4rem; height: 2.35rem; padding: .4rem .6rem; outline: none; background: white; }
+input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px #e0e7ff; }
+.active-toggle { align-items: center; display: flex; gap: .5rem; }
+.active-toggle input, .day-toggle input { width: .9rem; height: .9rem; }
+.days-section { border: 1px solid #e2e8f0; border-radius: .6rem; overflow: hidden; }
+.days-heading { align-items: center; background: #f8fafc; display: flex; gap: .6rem; padding: .55rem .8rem; }
+.days-heading h3 { color: #0f172a; font-size: .85rem; font-weight: 700; }
+.days-heading span { color: #64748b; font-size: .72rem; }
+.days-columns, .day-row { display: grid; gap: .65rem; grid-template-columns: 1.1fr .75fr .75fr .65fr; }
+.days-columns { background: #f8fafc; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: .68rem; font-weight: 700; padding: .35rem .8rem; text-transform: uppercase; }
+.day-row { align-items: center; border-bottom: 1px solid #f1f5f9; min-height: 3.2rem; padding: .35rem .8rem; }
+.day-row:last-child { border-bottom: 0; }
+.day-toggle { align-self: center; display: flex; gap: .5rem; }
+.day-error { grid-column: 2 / -1; }
+.day-row input[readonly] { background: #f8fafc; color: #94a3b8; }
+@media (max-width: 1100px) { .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .form-grid, .day-row { grid-template-columns: 1fr; }
+  .days-columns { display: none; }
+  .day-row { padding: .65rem .8rem; }
+  .time-field::before { color: #64748b; content: attr(data-label); font-size: .68rem; font-weight: 600; }
+  .day-error { grid-column: auto; }
+}

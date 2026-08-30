@@ -1,0 +1,161 @@
+<section class="p-6 max-w-[1500px] mx-auto">
+  <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-widest text-indigo-600">
+        {{ systemMode ? 'System administration' : 'Company administration' }}
+      </p>
+      <h1 class="text-2xl font-bold text-slate-900">
+        {{ systemMode ? 'System access control' : 'Company access control' }}
+      </h1>
+      <p class="text-sm text-slate-500 mt-1">
+        {{ systemMode
+          ? 'Manage support admins, system roles, and permissions used across companies.'
+          : 'Manage company roles and employee permissions inside this company.' }}
+      </p>
+    </div>
+    <div class="flex flex-wrap items-end gap-3">
+    @if (!systemMode) {
+      <app-company-filter [allowAll]="false" label="Manage company" (companyChange)="companyChanged($event)"></app-company-filter>
+    }
+    @if (accessStore.isRootSuperAdmin()) {
+      <span class="rounded-full bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 text-xs font-semibold">
+        Root System Admin · protected full access
+      </span>
+    } @else if (accessStore.isCompanyOwner()) {
+      <span class="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 text-xs font-semibold">
+        Company owner · protected assigned modules
+      </span>
+    }
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <nav class="flex border-b border-slate-200 px-4">
+      @for (item of [['pages','Pages'],['roles','Roles'],['users', systemMode ? 'Support admins' : 'Employees']]; track item[0]) {
+        <button class="px-4 py-3 text-sm font-medium border-b-2 -mb-px"
+          [class.border-indigo-600]="tab === item[0]" [class.text-indigo-600]="tab === item[0]"
+          [class.border-transparent]="tab !== item[0]" (click)="tab = $any(item[0])">{{ item[1] }}</button>
+      }
+    </nav>
+
+    @if (loading) { <div class="p-10 text-center text-slate-500">Loading access settings…</div> }
+
+    @if (!loading && tab === 'pages') {
+      <div class="p-5 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs uppercase tracking-wide text-slate-500 border-b"><th class="py-3">Page</th><th>Module</th><th>Audience</th><th>Route</th><th>Actions</th></tr></thead>
+          <tbody>
+            @for (page of pages; track page.id) {
+              <tr class="border-b border-slate-100">
+                <td class="py-4 font-semibold text-slate-800">{{ page.name }}</td>
+                <td>{{ page.module }} / {{ page.category }}</td>
+                <td><span class="action-chip">{{ page.audience === 1 ? 'Company' : page.audience === 2 ? 'System' : 'Both' }}</span></td>
+                <td><code class="text-xs bg-slate-100 px-2 py-1 rounded">{{ page.route }}</code></td>
+                <td><div class="flex flex-wrap gap-1">@for (permission of page.permissions; track permission.id) { <span class="action-chip">{{ permission.action }}</span> }</div></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (!loading && tab === 'roles') {
+      <div class="grid lg:grid-cols-[280px_1fr] min-h-[560px]">
+        <aside class="border-r border-slate-200 p-4">
+          @if (accessStore.can(roleCreatePermission)) { <button class="primary-button w-full mb-3" (click)="newRole()">+ New role</button> }
+          @for (role of roles; track role.id) {
+            <button class="role-row" [class.role-row-active]="editingRoleId === role.id" (click)="editRole(role)">
+              <span>{{ role.name }}</span>
+              @if (isProtectedRole(role)) { <small>Protected</small> }
+            </button>
+          }
+        </aside>
+        <div class="p-5">
+          <div class="flex items-end gap-3 mb-5">
+            <label class="field flex-1"><span>Role name</span><input [(ngModel)]="roleName" maxlength="80" placeholder="e.g. HR reviewer"></label>
+            <button class="primary-button" [disabled]="roleName.trim().length < 2 || (editingRoleId ? !accessStore.can(roleEditPermission) : !accessStore.can(roleCreatePermission))" (click)="saveRole()">Save role</button>
+            @if (editingRoleId && accessStore.can(roleDeletePermission)) {
+              <button class="danger-button" [disabled]="editingRoleIsProtected()" (click)="deleteEditingRole()">Delete</button>
+            }
+          </div>
+          <div class="permission-grid">
+            @for (page of pages; track page.id) {
+              <article class="permission-card">
+                <h3>{{ page.name }}</h3><p>{{ page.module }} · {{ page.category }}</p>
+                <div class="mt-3 grid sm:grid-cols-2 gap-2">
+                  @for (permission of page.permissions; track permission.id) {
+                    <label class="check-row"><input type="checkbox" [checked]="rolePermissionIds.has(permission.id)" (change)="toggleRolePermission(permission.id, $any($event.target).checked)"><span>{{ permission.action }}</span></label>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (!loading && tab === 'users') {
+      <div class="grid lg:grid-cols-[340px_1fr] min-h-[620px]">
+        <aside class="border-r border-slate-200 p-4">
+          @if (systemMode && accessStore.can('SystemUsers.Create')) {
+            <button class="primary-button w-full mb-3" (click)="showCreateUser = !showCreateUser">+ New support admin</button>
+          }
+          <div class="flex gap-2 mb-3"><input class="search-input" [(ngModel)]="search" (keyup.enter)="searchUsers()" placeholder="Search users"><button class="secondary-button" (click)="searchUsers()">Search</button></div>
+          @for (user of users; track user.id) {
+            <button class="user-row" [class.role-row-active]="selectedUser?.id === user.id" (click)="selectUser(user)">
+              <span class="font-medium">{{ user.name || user.email }}</span><small>{{ user.email }}</small>
+              @if (user.isRootSuperAdmin) { <em>Root</em> }
+              @if (user.isCompanyOwner) { <em>Owner</em> }
+            </button>
+          }
+        </aside>
+        <div class="p-5">
+          @if (showCreateUser && systemMode) {
+            <article class="permission-card mb-6">
+              <h3 class="section-title">Create support admin</h3>
+              <div class="grid sm:grid-cols-2 gap-3 mt-3">
+                <label class="field"><span>First name</span><input [(ngModel)]="newSystemUser.firstName"></label>
+                <label class="field"><span>Last name</span><input [(ngModel)]="newSystemUser.lastName"></label>
+                <label class="field"><span>Email</span><input type="email" [(ngModel)]="newSystemUser.email"></label>
+                <label class="field"><span>Phone</span><input [(ngModel)]="newSystemUser.phone"></label>
+                <label class="field"><span>Temporary password</span><input type="password" [(ngModel)]="newSystemUser.password"></label>
+              </div>
+              <button class="primary-button mt-4" [disabled]="!newSystemUser.email || newSystemUser.password.length < 6" (click)="createSystemUser()">Create user</button>
+            </article>
+          }
+
+          @if (!selectedUser) { <div class="h-full grid place-items-center text-slate-400">Select a user to manage access.</div> }
+          @if (selectedUser) {
+            <div class="flex justify-between items-start gap-3 mb-5">
+              <div><h2 class="font-bold text-lg">{{ selectedUser.name || selectedUser.email }}</h2><p class="text-sm text-slate-500">{{ selectedUser.email }}</p></div>
+              @if (accessStore.can(userEditPermission)) { <button class="primary-button" [disabled]="isSelectedUserProtected" (click)="saveUserAccess()">Save user access</button> }
+            </div>
+            @if (isSelectedUserProtected) {
+              <div class="notice">{{ selectedUser.isRootSuperAdmin ? 'The root System Admin' : 'The company owner' }} has permanent full access and cannot be changed.</div>
+            } @else {
+              <h3 class="section-title">Assigned roles</h3>
+              <div class="flex flex-wrap gap-2 mb-6">
+                @for (role of roles; track role.id) {
+                  <label class="check-row"><input type="checkbox" [checked]="userRoleIds.has(role.id)" (change)="toggleUserRole(role.id, $any($event.target).checked)"><span>{{ role.name }}</span></label>
+                }
+              </div>
+              <h3 class="section-title">Direct permission denies</h3>
+              <p class="text-xs text-slate-500 mb-3">A direct deny always takes precedence over all assigned roles.</p>
+              <div class="permission-grid">
+                @for (page of pages; track page.id) {
+                  <article class="permission-card"><h3>{{ page.name }}</h3>
+                    <div class="mt-3 space-y-2">
+                      @for (permission of page.permissions; track permission.id) {
+                        <label class="override-row"><span>{{ permission.action }}</span><input type="checkbox" [checked]="deniedPermissionIds.has(permission.id)" (change)="setDenied(permission.id, $any($event.target).checked)"><small>Deny</small></label>
+                      }
+                    </div>
+                  </article>
+                }
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

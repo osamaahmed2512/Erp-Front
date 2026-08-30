@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+.working-schedule-page {
+  display: flex;
+  flex-direction: column;
+}

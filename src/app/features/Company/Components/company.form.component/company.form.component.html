@@ -1,0 +1,108 @@
+<form [formGroup]="form" class="space-y-4">
+
+  <!-- Basic Information -->
+  <div>
+    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Basic Information</h3>
+    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Name <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="name" placeholder="Enter company name"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Email <span class="text-red-500">*</span></label>
+        <input type="email" formControlName="email" placeholder="company@example.com"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Phone <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="phone" placeholder="+1 000 000 0000"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1 col-span-3">
+        <label class="text-xs font-medium text-slate-600">Description</label>
+        <input type="text" formControlName="description" placeholder="Brief description of the company"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="border-t border-slate-100"></div>
+
+  <!-- Location -->
+  <div>
+    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Location</h3>
+    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Country</label>
+        <input type="text" formControlName="country" placeholder="e.g. Egypt"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">City</label>
+        <input type="text" formControlName="city" placeholder="e.g. Cairo"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Postal Code</label>
+        <input type="text" formControlName="postalCode" placeholder="00000"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1 col-span-3">
+        <label class="text-xs font-medium text-slate-600">Address</label>
+        <input type="text" formControlName="address" placeholder="Street, building, floor…"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="border-t border-slate-100"></div>
+
+  <!-- Legal & Web -->
+  <div>
+    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Legal &amp; Web</h3>
+    <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Tax Number <span class="text-red-500">*</span></label>
+        <input type="text" formControlName="taxNumber" placeholder="000-000-000"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Commercial Registration</label>
+        <input type="text" formControlName="commercialRegistration" placeholder="CR-000000"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-slate-600">Website</label>
+        <input type="text" formControlName="website" placeholder="https://example.com"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+      </div>
+
+    </div>
+  </div>
+
+</form>

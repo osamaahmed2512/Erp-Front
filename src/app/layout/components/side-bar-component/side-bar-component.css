@@ -1,0 +1,21 @@
+.nav-page-link {
+  position: relative;
+}
+
+.nav-page-active {
+  background-color: #eef2ff;  /* indigo-50 */
+  color: #4338ca;             /* indigo-700 */
+  font-weight: 500;
+}
+
+.nav-page-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background-color: #6366f1;  /* indigo-500 */
+  border-radius: 0 3px 3px 0;
+}

@@ -1,0 +1,31 @@
+<div class="flex flex-col">
+
+  <app-page-header
+    title="Employees"
+    [showSearch]="true"
+    [showAdd]="access.can('Employees.Create')"
+    (searchChange)="handleSearch($event)"
+    (addClick)="AddEmployee()"
+    (exportClick)="handleExport()">
+    <app-company-filter headerFilters [compact]="true" (companyChange)="filterCompany($event)"></app-company-filter>
+  </app-page-header>
+
+  <app-data-table
+    [data]="data"
+    [columns]="columns"
+    [totalItems]="totalItems"
+    [currentPage]="currentPage"
+    [pageSize]="pageSize"
+    [hasPreviousPage]="hasPreviousPage"
+    [hasNextPage]="hasNextPage"
+    [loading]="loading"
+    [showEdit]="access.can('Employees.Edit')"
+    [showDelete]="access.can('Employees.Delete')"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (viewClick)="onView($event)"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)"
+    >
+  </app-data-table>
+</div>

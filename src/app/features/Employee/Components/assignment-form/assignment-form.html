@@ -1,0 +1,73 @@
+<div class="modal-backdrop" role="presentation">
+  <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="assignment-form-title">
+    <header>
+      <div>
+        <p>Employee placement</p>
+        <h2 id="assignment-form-title">New assignment</h2>
+      </div>
+      <button type="button" class="icon-button" title="Close" [disabled]="saving" (click)="cancelled.emit()">
+        <lucide-icon [img]="icons.X" [size]="19"></lucide-icon>
+      </button>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-grid">
+        <div class="field">
+          <label for="assignment-department">Department <span>*</span></label>
+          <select id="assignment-department" formControlName="departmentId">
+            <option value="">Select department</option>
+            @for (department of departments; track department.id) {
+              <option [value]="department.id">{{ department.name }}</option>
+            }
+          </select>
+          @if (form.controls.departmentId.touched && form.controls.departmentId.invalid) {
+            <small>Department is required.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="assignment-position">Position <span>*</span></label>
+          <select id="assignment-position" formControlName="positionId" [disabled]="!form.controls.departmentId.value || loadingPositions">
+            <option value="">{{ loadingPositions ? 'Loading positions...' : 'Select position' }}</option>
+            @for (position of positions; track position.id) {
+              <option [value]="position.id">{{ position.name }}</option>
+            }
+          </select>
+          @if (form.controls.positionId.touched && form.controls.positionId.invalid) {
+            <small>Position is required.</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="assignment-manager">Manager</label>
+          <select id="assignment-manager" formControlName="managerId">
+            <option [ngValue]="null">No manager</option>
+            @for (manager of managers; track manager.id) {
+              <option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }} - {{ manager.comapnyName }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="assignment-effective-date">Effective from <span>*</span></label>
+          <input id="assignment-effective-date" type="date" formControlName="effectiveFrom">
+          @if (form.controls.effectiveFrom.touched && form.controls.effectiveFrom.invalid) {
+            <small>Effective date is required.</small>
+          }
+        </div>
+      </div>
+
+      @if (loadingOptions) {
+        <div class="option-loading"><span></span>Loading available options</div>
+      }
+
+      <footer>
+        <button type="button" class="secondary-action" [disabled]="saving" (click)="cancelled.emit()">Cancel</button>
+        <button type="submit" class="save-action" [disabled]="saving || loadingOptions || loadingPositions">
+          <lucide-icon [img]="icons.Check" [size]="16"></lucide-icon>
+          {{ saving ? 'Saving...' : 'Save assignment' }}
+        </button>
+      </footer>
+    </form>
+  </section>
+</div>

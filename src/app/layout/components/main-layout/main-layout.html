@@ -1,0 +1,18 @@
+<div class="flex flex-col h-screen overflow-hidden bg-surface">
+
+  <!-- Full-width top navbar -->
+  <app-header-component></app-header-component>
+
+  <!-- Sidebar + main content row -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- Sidebar (manages its own width) -->
+    <app-side-bar-component></app-side-bar-component>
+
+    <!-- Page content -->
+    <main class="flex-1 overflow-y-auto bg-surface">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

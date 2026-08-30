@@ -1,0 +1,60 @@
+<form [formGroup]="form" class="schedule-form">
+  <div class="form-heading">
+    <div>
+      <p>Attendance setup</p>
+      <h2>Working schedule details</h2>
+    </div>
+    <label class="active-toggle"><input type="checkbox" formControlName="isActive"> Active</label>
+  </div>
+
+  <div class="form-grid">
+    @if (showCompany) {
+    <div class="field">
+      <label for="schedule-company">Company <span>*</span></label>
+      <select id="schedule-company" formControlName="companyId" [attr.disabled]="lockCompany || loadingCompanies ? '' : null">
+        <option value="">{{ loadingCompanies ? 'Loading companies...' : 'Select company' }}</option>
+        @for (company of companies; track company.id) { <option [value]="company.id">{{ company.name }}</option> }
+      </select>
+      <app-validation-message [control]="form.get('companyId')">
+      </app-validation-message>
+    </div>
+    }
+    <div class="field">
+      <label for="schedule-name">Schedule name <span>*</span></label>
+      <input id="schedule-name" type="text" formControlName="name" placeholder="e.g. Standard office hours">
+      <app-validation-message [control]="form.get('name')">
+      </app-validation-message>
+    </div>
+    <div class="field">
+      <label for="effective-from">Effective from <span>*</span></label>
+      <input id="effective-from" type="date" formControlName="effectiveFrom">
+      <app-validation-message [control]="form.get('effectiveFrom')">
+      </app-validation-message>
+    </div>
+    <div class="field">
+      <label for="effective-to">Effective to</label>
+      <input id="effective-to" type="date" formControlName="effectiveTo">
+      <app-validation-message [control]="form">
+      </app-validation-message>
+    </div>
+  </div>
+
+  <div class="days-section" formArrayName="days">
+    <div class="days-heading"><h3>Weekly hours</h3><span>Set each day's hours and break.</span></div>
+    <div class="days-columns" aria-hidden="true">
+      <span>Day</span><span>Start</span><span>End</span><span>Break (min)</span>
+    </div>
+    @for (day of days.controls; track $index; let i = $index) {
+      <div class="day-row" [formGroupName]="i">
+        <label class="day-toggle"><input type="checkbox" formControlName="isWorkingDay"> {{ dayNames[i] }}</label>
+        <div class="time-field" data-label="Start"><input aria-label="Start time" type="time" formControlName="startTime" [readonly]="!day.get('isWorkingDay')?.value"></div>
+        <div class="time-field" data-label="End"><input aria-label="End time" type="time" formControlName="endTime" [readonly]="!day.get('isWorkingDay')?.value"></div>
+        <div class="time-field" data-label="Break"><input aria-label="Break minutes" type="number" min="0" formControlName="breakMinutes" [readonly]="!day.get('isWorkingDay')?.value"></div>
+        <app-validation-message
+          class="day-error"
+          [control]="day">
+        </app-validation-message>
+      </div>
+    }
+  </div>
+</form>

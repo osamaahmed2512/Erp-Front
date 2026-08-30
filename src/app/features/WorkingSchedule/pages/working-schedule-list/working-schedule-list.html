@@ -1,0 +1,33 @@
+<div class="working-schedule-page">
+  <app-page-header
+    title="Working Schedules"
+    addText="Add Schedule"
+    [showSearch]="true"
+    [showAdd]="access.can('WorkingSchedules.Create')"
+    searchPlaceholder="Search schedules..."
+    (searchChange)="search($event)"
+    (addClick)="add()"
+    (exportClick)="exportCsv()">
+    <app-company-filter headerFilters [compact]="true" (companyChange)="filterCompany($event)"></app-company-filter>
+  </app-page-header>
+
+  <app-data-table
+    [data]="data"
+    [columns]="columns"
+    [totalItems]="totalItems"
+    [currentPage]="currentPage"
+    [pageSize]="pageSize"
+    [hasPreviousPage]="hasPreviousPage"
+    [hasNextPage]="hasNextPage"
+    [loading]="loading"
+    [showEdit]="access.can('WorkingSchedules.Edit')"
+    [showDelete]="access.can('WorkingSchedules.Delete')"
+    [allowBadgeClick]="access.can('WorkingSchedules.Edit')"
+    (pageChange)="pageChanged($event)"
+    (pageSizeChange)="pageSizeChanged($event)"
+    (viewClick)="view($event)"
+    (editClick)="edit($event)"
+    (deleteClick)="remove($event)"
+    (bageClick)="changeStatus($event)">
+  </app-data-table>
+</div>

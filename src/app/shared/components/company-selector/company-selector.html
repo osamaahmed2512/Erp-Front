@@ -1,0 +1,28 @@
+@if (canSwitchCompany) {
+  <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+    <div class="min-w-0">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Company context</p>
+      <p class="text-xs text-slate-400">Choose the company whose data you want to manage.</p>
+    </div>
+    <div class="relative ml-auto">
+    <select 
+      [(ngModel)]="selectedCompanyId"
+      (change)="onCompanyChange()"
+      class="appearance-none bg-white border border-gray-200 text-gray-700 text-sm rounded-lg 
+             focus:ring-indigo-500 focus:border-indigo-500 block w-56 pl-3 pr-8 py-2 
+             cursor-pointer hover:border-gray-300 transition-colors">
+      <option value="" disabled>Select Company</option>
+      @for (company of companies; track company.id) {
+        <option [value]="company.id">{{ company.name }}</option>
+      }
+    </select>
+    
+    <!-- Custom dropdown arrow -->
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+      <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </div>
+    </div>
+  </div>
+}

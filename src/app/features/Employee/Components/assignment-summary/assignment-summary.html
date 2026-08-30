@@ -1,0 +1,48 @@
+<section class="assignment-summary" aria-labelledby="current-assignment-heading">
+  <div class="section-heading">
+    <div>
+      <p class="section-kicker">Current placement</p>
+      <h2 id="current-assignment-heading">Employment assignment</h2>
+    </div>
+
+    <button type="button" class="primary-action" (click)="createAssignment.emit()">
+      <lucide-icon [img]="icons.Plus" [size]="16"></lucide-icon>
+      {{ assignment ? 'New assignment' : 'Create assignment' }}
+    </button>
+  </div>
+
+  @if (loading) {
+    <div class="summary-grid" aria-label="Loading current assignment">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <div class="summary-item skeleton-item"></div>
+      }
+    </div>
+  } @else if (assignment) {
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="icon-box department"><lucide-icon [img]="icons.Building2" [size]="18"></lucide-icon></span>
+        <div><span>Department</span><strong>{{ assignment.departmentName }}</strong></div>
+      </div>
+      <div class="summary-item">
+        <span class="icon-box position"><lucide-icon [img]="icons.BriefcaseBusiness" [size]="18"></lucide-icon></span>
+        <div><span>Position</span><strong>{{ assignment.positionName }}</strong></div>
+      </div>
+      <div class="summary-item">
+        <span class="icon-box manager"><lucide-icon [img]="icons.UserRound" [size]="18"></lucide-icon></span>
+        <div><span>Reports to</span><strong>{{ assignment.managerName || 'No manager assigned' }}</strong></div>
+      </div>
+      <div class="summary-item">
+        <span class="icon-box date"><lucide-icon [img]="icons.CalendarDays" [size]="18"></lucide-icon></span>
+        <div><span>Effective from</span><strong>{{ assignment.effectiveFrom | date: 'dd MMM yyyy' }}</strong></div>
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <span class="empty-icon"><lucide-icon [img]="icons.BriefcaseBusiness" [size]="24"></lucide-icon></span>
+      <div>
+        <h3>No assignment recorded</h3>
+        <p>Create the employee's initial department, position, and reporting line.</p>
+      </div>
+    </div>
+  }
+</section>

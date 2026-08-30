@@ -1,0 +1,3 @@
+<app-update-page entityName="Employee" [isSaving]="isSaving" (saveEvent)="save()" (cancelEvent)="cancel()" >
+    <app-employee-from [form]="employeeForm" [isSuperAdmin]="isSuperAdmin" [companies]="companies" [nationalities]="nationalities"></app-employee-from>
+</app-update-page>

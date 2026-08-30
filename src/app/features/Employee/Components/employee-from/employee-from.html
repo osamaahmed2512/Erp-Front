@@ -1,0 +1,223 @@
+<form [formGroup]="form" class="space-y-4">
+
+    <div>
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+            Employee Details
+        </h3>
+
+        <div class="grid grid-cols-3 gap-x-4 gap-y-3">
+
+            <!-- First Name -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    First Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="firstName" placeholder="Enter first name"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('firstName')">
+                </app-validation-message>
+            </div>
+
+            <!-- Last Name -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Last Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="lastName" placeholder="Enter last name"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('lastName')">
+                </app-validation-message>
+            </div>
+
+            <!-- Phone -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Phone Number <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="phone" placeholder="Enter phone number"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('phone')">
+                </app-validation-message>
+            </div>
+
+            <!-- Email -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Email <span class="text-red-500">*</span>
+                </label>
+                <input type="email" formControlName="email" placeholder="Enter email"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('email')">
+                </app-validation-message>
+            </div>
+
+            <!-- Password -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Password <span class="text-red-500">*</span>
+                </label>
+                <input type="password" formControlName="password" placeholder="Enter password"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('password')">
+                </app-validation-message>
+            </div>
+
+            <!-- Nationality Number -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Nationality Number <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="nationalityNumber" maxlength="14"
+                    placeholder="Enter nationality number"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('nationalityNumber')">
+                </app-validation-message>
+            </div>
+
+            <!-- Nationality -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Nationality <span class="text-red-500">*</span>
+                </label>
+
+                <select formControlName="nationalityId"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors cursor-pointer">
+
+                    <option value="">Select Nationality</option>
+
+                    @for (nationality of nationalities; track nationality.id) {
+                    <option [value]="nationality.id">
+                        {{ nationality.name }}
+                    </option>
+                    }
+
+                </select>
+                <app-validation-message [control]="form.get('nationalityId')">
+                </app-validation-message>
+            </div>
+
+            <!-- Address -->
+            <div class="flex flex-col gap-1 col-span-2">
+                <label class="text-xs font-medium text-slate-600">
+                    Address <span class="text-red-500">*</span>
+                </label>
+                <input type="text" formControlName="address" placeholder="Enter address"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('address')">
+                </app-validation-message>
+            </div>
+
+            <!-- Marital Status -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Marital Status <span class="text-red-500">*</span>
+                </label>
+
+                <select formControlName="martielStatus"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors cursor-pointer">
+
+                    <option [ngValue]="null">Select Status</option>
+                    <option [ngValue]="1">Single</option>
+                    <option [ngValue]="2">Married</option>
+                    <option [ngValue]="3">Divorced</option>
+                    <option [ngValue]="4">Widowed</option>
+
+                </select>
+                <app-validation-message [control]="form.get('martielStatus')">
+                </app-validation-message>
+            </div>
+
+            <!-- Birth Date -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Birth Date <span class="text-red-500">*</span>
+                </label>
+                <input type="date" formControlName="birthDate"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors">
+                <app-validation-message [control]="form.get('birthDate')">
+                </app-validation-message>
+            </div>
+
+            <!-- Gender -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Gender <span class="text-red-500">*</span>
+                </label>
+
+                <select formControlName="gender"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors cursor-pointer">
+
+                    <option [ngValue]="null">Select Gender</option>
+                    <option [ngValue]="1">Male</option>
+                    <option [ngValue]="2">Female</option>
+
+                </select>
+                <app-validation-message [control]="form.get('gender')">
+                </app-validation-message>
+            </div>
+
+            <!-- Company - Super Admin only -->
+            @if (isSuperAdmin) {
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Company <span class="text-red-500">*</span>
+                </label>
+
+                <select formControlName="companyId" class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500/20
+                        focus:border-indigo-500 transition-colors cursor-pointer">
+
+                    <option value="">Select Company</option>
+
+                    @for (company of companies; track company.id) {
+                    <option [value]="company.id">
+                        {{ company.name }}
+                    </option>
+                    }
+
+                </select>
+                <app-validation-message [control]="form.get('companyId')">
+                </app-validation-message>
+            </div>
+            }
+
+            <!-- Status -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-medium text-slate-600">
+                    Status <span class="text-red-500">*</span>
+                </label>
+
+                <select formControlName="status"
+                    [disabled]="true"
+                    class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors cursor-pointer">
+
+                    <option [ngValue]="null">Created</option>
+                    <option [ngValue]="0">Created</option>
+                    <option [ngValue]="1">Active</option>
+                    <option [ngValue]="2">OnLeave</option>       
+                    <option [ngValue]="3">Suspended</option>       
+                    <option [ngValue]="4">Resigned</option>       
+                    <option [ngValue]="5">Terminated</option>       
+                    <option [ngValue]="6">Retired</option>       
+                </select>
+                <app-validation-message [control]="form.get('gender')">
+                </app-validation-message>
+            </div>
+
+
+        </div>
+    </div>
+
+</form>
