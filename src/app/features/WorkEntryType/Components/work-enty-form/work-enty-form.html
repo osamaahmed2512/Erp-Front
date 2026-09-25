@@ -1,0 +1,160 @@
+<form
+    [formGroup]="form"
+    class="w-full rounded-lg bg-white p-4 shadow-sm">
+
+
+    <!-- Form Grid -->
+    <div class="grid grid-cols-1 gap-x-5 gap-y-4 md:grid-cols-2">
+
+        <!-- Company -->
+        @if (isSuperAdmin) {
+            <div>
+                <label
+                    for="work-entry-company"
+                    class="mb-1 block text-sm font-medium text-gray-700">
+
+                    Company
+                    <span class="text-red-500">*</span>
+                </label>
+
+                <select
+                    id="work-entry-company"
+                    formControlName="companyId"
+                    [disabled]="loadingCompanies"
+                    class="w-full rounded-md border border-gray-300 bg-white
+                           px-3 py-2 text-sm text-gray-900
+                           outline-none transition
+                           focus:border-blue-500 focus:ring-1 focus:ring-blue-500
+                           disabled:cursor-not-allowed disabled:bg-gray-100">
+
+                    <option value="">
+                        {{ loadingCompanies
+                            ? 'Loading companies...'
+                            : 'Select company'
+                        }}
+                    </option>
+
+                    @for (company of companies; track company.id) {
+                        <option [value]="company.id">
+                            {{ company.name }}
+                        </option>
+                    }
+
+                </select>
+
+                <app-validation-message
+                    [control]="form.get('companyId')" />
+            </div>
+        }
+
+
+        <!-- Name -->
+        <div>
+            <label
+                for="work-entry-name"
+                class="mb-1 block text-sm font-medium text-gray-700">
+
+                Name
+                <span class="text-red-500">*</span>
+            </label>
+
+            <input
+                id="work-entry-name"
+                type="text"
+                formControlName="name"
+                placeholder="Enter work entry name"
+                class="w-full rounded-md border border-gray-300 bg-white
+                       px-3 py-2 text-sm text-gray-900
+                       placeholder:text-gray-400
+                       outline-none transition
+                       focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+
+            <app-validation-message
+                [control]="form.get('name')" />
+        </div>
+
+
+        <!-- Code -->
+        <div>
+            <label
+                for="work-entry-code"
+                class="mb-1 block text-sm font-medium text-gray-700">
+
+                Code
+                <span class="text-red-500">*</span>
+            </label>
+
+            <input
+                id="work-entry-code"
+                type="text"
+                formControlName="code"
+                placeholder="Enter work entry code"
+                class="w-full rounded-md border border-gray-300 bg-white
+                       px-3 py-2 text-sm text-gray-900
+                       placeholder:text-gray-400
+                       outline-none transition
+                       focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+
+            <app-validation-message
+                [control]="form.get('code')" />
+        </div>
+
+
+
+        <!-- Is Paid -->
+        <div
+            class="flex items-center justify-between rounded-md
+                   border border-gray-200 bg-gray-50 px-3 py-2.5">
+
+            <div>
+                <label
+                    for="work-entry-isPaid"
+                    class="cursor-pointer text-sm font-medium text-gray-800">
+
+                    Is Paid
+                </label>
+
+                <p class="mt-0.5 text-xs text-gray-500">
+                    This work entry affects employee pay.
+                </p>
+            </div>
+
+            <input
+                id="work-entry-isPaid"
+                type="checkbox"
+                formControlName="isPaid"
+                class="h-4 w-4 cursor-pointer rounded border-gray-300
+                       text-blue-600 focus:ring-blue-500">
+
+        </div>
+
+
+        <!-- Is Working Time -->
+        <div
+            class="flex items-center justify-between rounded-md
+                   border border-gray-200 bg-gray-50 px-3 py-2.5">
+
+            <div>
+                <label
+                    for="work-entry-isWorkingTime"
+                    class="cursor-pointer text-sm font-medium text-gray-800">
+
+                    Is Working Time
+                </label>
+
+                <p class="mt-0.5 text-xs text-gray-500">
+                    Count this entry as employee working time.
+                </p>
+            </div>
+
+            <input
+                id="work-entry-isWorkingTime"
+                type="checkbox"
+                formControlName="isWorkingTime"
+                class="h-4 w-4 cursor-pointer rounded border-gray-300
+                       text-blue-600 focus:ring-blue-500">
+
+        </div>
+
+    </div>
+</form>

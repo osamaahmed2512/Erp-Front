@@ -16,6 +16,6 @@ export class DepartementService {
     return this.http.get<DropDownDto[]>(
       `${this.baseUrl}/Company/DropDown`
     );
-  }
+  } 
 
 }

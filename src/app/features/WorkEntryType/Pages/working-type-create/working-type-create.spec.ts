@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SidebarModules } from './sidebar-modules';
+import { WorkingTypeCreate } from './working-type-create';
 
-describe('SidebarModules', () => {
-  let component: SidebarModules;
-  let fixture: ComponentFixture<SidebarModules>;
+describe('WorkingTypeCreate', () => {
+  let component: WorkingTypeCreate;
+  let fixture: ComponentFixture<WorkingTypeCreate>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SidebarModules]
+      imports: [WorkingTypeCreate]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SidebarModules);
+    fixture = TestBed.createComponent(WorkingTypeCreate);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

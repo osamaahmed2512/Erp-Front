@@ -80,6 +80,37 @@ export const routes: Routes = [
         loadComponent: () => import('./features/WorkingSchedule/pages/working-schedule-update/working-schedule-update').then(m => m.WorkingScheduleUpdate)
       },
       {
+        path: 'work-entry-type',
+        canActivate: [permissionGuard], data: { permission: 'WorkEntryTypes.View' },
+        loadComponent: () => import('./features/WorkEntryType/Pages/working-type-list/working-type-list').then(m => m.WorkingTypeList)
+      },
+      {
+        path: 'work-entry-type/create',
+        canActivate: [permissionGuard], data: { permission: 'WorkEntryTypes.Create' },
+        loadComponent: () => import('./features/WorkEntryType/Pages/working-type-create/working-type-create').then(m => m.WorkingTypeCreate)
+      },
+      {
+        path: 'work-entry-type/update/:id',
+        canActivate: [permissionGuard], data: { permission: 'WorkEntryTypes.Edit' },
+        loadComponent: () => import('./features/WorkEntryType/Pages/working-type-update/working-type-update').then(m => m.WorkingTypeUpdate)
+      },
+            
+      {
+        path: 'structure-type',
+        canActivate: [permissionGuard], data: { permission: 'StructureTypes.View' },
+        loadComponent: () => import('./features/StructureType/pages/structure-type-list/structure-type-list').then(m => m.StructureTypeList)
+      },
+      {
+        path: 'structure-type/add',
+        canActivate: [permissionGuard], data: { permission: 'StructureTypes.Create' },
+        loadComponent: () => import('./features/StructureType/pages/structure-type-create/structure-type-create').then(m => m.StructureTypeCreate)
+      },
+      {
+        path: 'structure-type/update/:id',
+        canActivate: [permissionGuard], data: { permission: 'StructureTypes.Edit' },
+        loadComponent: () => import('./features/StructureType/pages/structure-type-update/structure-type-update').then(m => m.StructureTypeUpdate)
+      },
+      {
         path: 'employee',
         canActivate: [permissionGuard], data: { permission: 'Employees.View' },
         loadComponent: () => import('./features/Employee/pages/employee-list/employee-list').then(m => m.EmployeeList)
