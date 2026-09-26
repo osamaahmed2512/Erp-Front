@@ -111,6 +111,21 @@ export const routes: Routes = [
         loadComponent: () => import('./features/StructureType/pages/structure-type-update/structure-type-update').then(m => m.StructureTypeUpdate)
       },
       {
+        path: 'salary-rule-category',
+        canActivate: [permissionGuard], data: { permission: 'SalaryRuleCategories.View' },
+        loadComponent: () => import('./features/SalaryRuleCategory/pages/salary-rule-category-list/salary-rule-category-list').then(m => m.SalaryRuleCategoryList)
+      },
+      {
+        path: 'salary-rule-category/add',
+        canActivate: [permissionGuard], data: { permission: 'SalaryRuleCategories.Create' },
+        loadComponent: () => import('./features/SalaryRuleCategory/pages/salary-rule-category-create/salary-rule-category-create').then(m => m.SalaryRuleCategoryCreate)
+      },
+      {
+        path: 'salary-rule-category/update/:id',
+        canActivate: [permissionGuard], data: { permission: 'SalaryRuleCategories.Edit' },
+        loadComponent: () => import('./features/SalaryRuleCategory/pages/salary-rule-category-update/salary-rule-category-update').then(m => m.SalaryRuleCategoryUpdate)
+      },
+      {
         path: 'employee',
         canActivate: [permissionGuard], data: { permission: 'Employees.View' },
         loadComponent: () => import('./features/Employee/pages/employee-list/employee-list').then(m => m.EmployeeList)

@@ -1,0 +1,89 @@
+<form [formGroup]="form" class="space-y-4">
+  <div>
+    <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
+      Salary Rule Category Details
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+      <!-- Name -->
+      <div class="flex flex-col gap-1">
+        <label for="categoryName" class="text-xs font-medium text-slate-600">
+          Name <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="categoryName"
+          type="text"
+          formControlName="name"
+          placeholder="Enter category name"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors"
+        />
+
+        <app-validation-message [control]="form.get('name')">
+        </app-validation-message>
+      </div>
+
+      <!-- Code -->
+      <div class="flex flex-col gap-1">
+        <label for="categoryCode" class="text-xs font-medium text-slate-600">
+          Code <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="categoryCode"
+          type="text"
+          formControlName="code"
+          placeholder="Enter category code"
+          class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900 placeholder-slate-400
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors"
+        />
+
+        <app-validation-message [control]="form.get('code')">
+        </app-validation-message>
+      </div>
+
+      <!-- Company: Super Admin only -->
+      @if (isSuperAdmin) {
+        <div class="flex flex-col gap-1">
+          <label for="categoryCompany" class="text-xs font-medium text-slate-600">
+            Company <span class="text-red-500">*</span>
+          </label>
+
+          <select
+            id="categoryCompany"
+            formControlName="companyId"
+            class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-900
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors cursor-pointer"
+          >
+            <option value="">Select Company</option>
+
+            @for (company of companies; track company.id) {
+              <option [value]="company.id">{{ company.name }}</option>
+            }
+          </select>
+
+          <app-validation-message [control]="form.get('companyId')">
+          </app-validation-message>
+        </div>
+      }
+
+      <!-- Active -->
+      <div class="flex flex-col gap-1">
+        <label for="categoryActive" class="text-xs font-medium text-slate-600">
+          Status
+        </label>
+
+        <label class="flex items-center gap-2 py-2 text-sm text-slate-900 cursor-pointer">
+          <input
+            id="categoryActive"
+            type="checkbox"
+            formControlName="isActive"
+            class="h-4 w-4 accent-indigo-600"
+          />
+          Active
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
