@@ -1,0 +1,7 @@
+<app-update-page entityName="Salary Structure" [isSaving]="isSaving" (saveEvent)="save()" (cancelEvent)="cancel()">
+  <app-salary-structure-form
+    [form]="structureForm"
+    [isSuperAdmin]="isSuperAdmin"
+    [companies]="companies"
+    [structureTypes]="structureTypes" />
+</app-update-page>

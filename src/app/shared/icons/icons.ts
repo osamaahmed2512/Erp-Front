@@ -1,4 +1,4 @@
-import {ListChecks , FilePenLine ,ArrowLeft, Lightbulb, Percent, LayoutDashboard, Users, UserPlus, CreditCard, Calendar, Building2, Bell, ArrowUpDown, UsersIcon, Pencil, ListFilter, Search, Ellipsis, TrendingUp, Clock, Settings, ChevronDown, ChevronRight, Network, Briefcase, BriefcaseBusiness, CalendarClock, ShieldCheck ,Layers, Tags} from 'lucide-angular';
+import {ListChecks , FilePenLine ,ArrowLeft, Lightbulb, Percent, LayoutDashboard, Users, UserPlus, CreditCard, Calendar, Building2, Bell, ArrowUpDown, UsersIcon, Pencil, ListFilter, Search, Ellipsis, TrendingUp, Clock, Settings, ChevronDown, ChevronRight, Network, Briefcase, BriefcaseBusiness, CalendarClock, ShieldCheck ,Layers, Tags, Wallet} from 'lucide-angular';
 
 export const APP_ICONS = {
   LayoutDashboard,
@@ -29,5 +29,6 @@ export const APP_ICONS = {
   FilePenLine ,
   ListChecks ,
   Layers,
-  Tags
+  Tags,
+  Wallet
 };

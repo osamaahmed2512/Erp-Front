@@ -1,0 +1,29 @@
+<div class="flex flex-col">
+
+  <app-page-header
+    title="Salary Structures"
+    [showSearch]="true"
+    [showAdd]="access.can('SalaryStructures.Create')"
+    (searchChange)="handleSearch($event)"
+    (addClick)="onAdd()">
+    <app-company-filter headerFilters [compact]="true" (companyChange)="filterCompany($event)"></app-company-filter>
+  </app-page-header>
+
+  <app-data-table
+    [data]="data"
+    [columns]="columns"
+    [totalItems]="totalItems"
+    [currentPage]="currentPage"
+    [pageSize]="pageSize"
+    [hasPreviousPage]="hasPreviousPage"
+    [hasNextPage]="hasNextPage"
+    [loading]="loading"
+    [showView]="false"
+    [showEdit]="access.can('SalaryStructures.Edit')"
+    [showDelete]="access.can('SalaryStructures.Delete')"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+    (editClick)="onEdit($event)"
+    (deleteClick)="onDelete($event)">
+  </app-data-table>
+</div>

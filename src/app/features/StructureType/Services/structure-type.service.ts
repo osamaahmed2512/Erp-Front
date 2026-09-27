@@ -8,6 +8,7 @@ import { UpdateSturctureType } from '../models/update-sturcture-type';
 import { GetStructureType } from '../models/get-sturcture-type';
 import { BaseApiResponse } from '../../../shared/Models/base-api-response';
 import { PaginatedResponse } from '../../../shared/Models/paginated-response';
+import { DropDownDto } from '../../../shared/Models/drop-down-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,9 @@ export class StructureTypeService {
     }
     getById(id:string):Observable<BaseApiResponse<GetStructureType>>{
       return this.http.get<BaseApiResponse<GetStructureType>>(`${this.baseUrl}/StructureType/${id}`);
+    }
+    getDropdown(companyId:string):Observable<DropDownDto[]>{
+      return this.http.get<DropDownDto[]>(`${this.baseUrl}/StructureType/dropdown`, { params: new HttpParams().set('companyId', companyId) });
     }
     getAll(pageIndex=1,pageSize=10,search='',companyId=''):Observable<PaginatedResponse<GetStructureType>>{
       let params = new HttpParams().set('PageIndex',pageIndex).set('PageSize',pageSize);
